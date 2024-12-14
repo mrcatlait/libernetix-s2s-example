@@ -200,6 +200,7 @@ sequenceDiagram
   Frontend->>Bank: Send 3D Secure request
   Bank->>Backend: POST /:purchaseId/callback
   Database->>Backend: Find callback_url
+  Backend->>Database: 
   Backend->>Libernetix: Send 3D Secure request
   Libernetix->>Backend: 
   Backend->>Backend: Handle Payment Status
