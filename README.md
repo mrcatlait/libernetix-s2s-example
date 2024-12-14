@@ -139,6 +139,76 @@ Once **Moonrepo** is installed, you can easily manage the frontend and backend a
   moon e2e:test-ui   # Runs the end-to-end tests in UI mode
   ```
 
+## Payment Flow
+
+### Not enrolled in 3D Secure
+
+```mermaid
+sequenceDiagram 
+  participant Client
+  participant Frontend
+  participant Backend
+  participant RabbitMQ
+  participant Libernetix
+
+  Client->>Frontend: Initiate Payment
+  Frontend->>Backend: POST /payments
+  Backend->>Libernetix: POST /purchases/
+  Libernetix->>Backend: 
+  Backend->>RabbitMQ: Publish payment.process
+  Backend->>Frontend: Purchase ID
+  Frontend->>Backend: SSE /:purchaseId/events
+  Frontend->>Frontend: Navigate to Processing Page
+  RabbitMQ->>Backend: Consume payment.process
+  Backend->>Libernetix: POST <direct_post_url>?s2s=true
+  Libernetix->>Backend: 
+  Backend->>Backend: Handle Payment Status
+  Backend->>RabbitMQ: Publish payment.update-status
+  RabbitMQ->>Backend: Consume payment.update-status
+  Backend->>Frontend: SSE /:purchaseId/events (Payment Executed/Failed)
+  Frontend->>Frontend: Navigate to Status Page
+```
+
+### Enrolled in 3D Secure
+
+```mermaid
+sequenceDiagram 
+  participant Client
+  participant Frontend
+  participant Backend
+  participant RabbitMQ
+  participant Libernetix
+  participant Database
+  participant Bank
+
+  Client->>Frontend: Initiate Payment
+  Frontend->>Backend: POST /payments
+  Backend->>Libernetix: POST /purchases/
+  Libernetix->>Backend: 
+  Backend->>RabbitMQ: Publish payment.process
+  Backend->>Frontend: Purchase ID
+  Frontend->>Backend: SSE /:purchaseId/events
+  Frontend->>Frontend: Navigate to Processing Page
+  RabbitMQ->>Backend: Consume payment.process
+  Backend->>Libernetix: POST <direct_post_url>?s2s=true
+  Libernetix->>Backend: 
+  Backend->>Backend: Handle Payment Status
+  Backend->>Database: Save callback_url
+  Backend->>RabbitMQ: Publish payment.update-status
+  RabbitMQ->>Backend: Consume payment.update-status
+  Backend->>Frontend: SSE /:purchaseId/events (3D)
+  Frontend->>Bank: Send 3D Secure request
+  Bank->>Backend: POST /:purchaseId/callback
+  Database->>Backend: Find callback_url
+  Backend->>Libernetix: Send 3D Secure request
+  Libernetix->>Backend: 
+  Backend->>Backend: Handle Payment Status
+  Backend->>RabbitMQ: Publish payment.update-status
+  RabbitMQ->>Backend: Consume payment.update-status
+  Backend->>Frontend: SSE /:purchaseId/events (Payment Executed/Failed)
+  Frontend->>Frontend: Navigate to Status Page
+```
+
 ## Monitoring & Health Checks
 
 ## Health Endpoints
