@@ -1,11 +1,11 @@
 import { paymentFormSelectors, paymentProcessingSelectors, paymentSuccessSelectors } from "../selectors"
 
-describe('Homepage', () => {
+describe('Happy path', () => {
   beforeEach(() => {
     cy.visit('/')
   })
 
-  it('should display the homepage', () => {
+  it('should process a payment without 3D Secure', () => {
     cy.getBySelector(paymentFormSelectors.formContainer).should('exist')
 
     cy.getBySelector(paymentFormSelectors.amountInput).type('100')
