@@ -1,0 +1,13 @@
+<tui-block-status [selector]="selectors.successContainer">
+  <tui-icon
+    [style.color]="'var(--tui-text-positive)'"
+    [style.height.px]="160"
+    [style.width.px]="160"
+    icon="@tui.check"
+    tuiSlot="top"
+  />
+
+  <h4>Payment successful</h4>
+
+  <span>Your payment has been successfully processed.</span>
+</tui-block-status>

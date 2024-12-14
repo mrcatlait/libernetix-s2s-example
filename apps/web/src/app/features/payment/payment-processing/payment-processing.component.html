@@ -1,0 +1,13 @@
+<tui-block-status [selector]="selectors.processingContainer">
+  <tui-progress-circle
+    [max]="10"
+    [value]="3"
+    class="spinner"
+    size="xl"
+    tuiSlot="top"
+  />
+
+  <h4>Processing payment</h4>
+
+  <span>Please wait while we process your payment. This may take a few seconds.</span>
+</tui-block-status>

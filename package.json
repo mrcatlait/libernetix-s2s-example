@@ -1,0 +1,17 @@
+{
+  "name": "s2s-server",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "e2e"
+  ],
+  "engines": {
+    "node": "~20"
+  },
+  "dependencies": {
+    "@nestjs/swagger": "^8.1.0",
+    "@opentelemetry/sdk-metrics": "^1.29.0",
+    "@types/supertest": "^6.0.2"
+  }
+}

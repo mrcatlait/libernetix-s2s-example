@@ -1,0 +1,20 @@
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+section {
+  flex-shrink: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: inherit;
+}
+
+.field {
+  flex: 1;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}

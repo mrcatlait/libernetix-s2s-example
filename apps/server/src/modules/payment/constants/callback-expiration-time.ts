@@ -1,0 +1,1 @@
+export const CALLBACK_EXPIRATION_TIME = 1000 * 60 * 60 * 3

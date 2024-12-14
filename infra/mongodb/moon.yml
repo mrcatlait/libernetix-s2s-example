@@ -1,0 +1,16 @@
+$schema: 'https://moonrepo.dev/schemas/project.json'
+
+stack: 'infrastructure'
+type: 'configuration'
+platform: 'system'
+
+tasks:
+  start:
+    description: 'Docker compose up'
+    command: 'docker-compose up -d'
+    local: true
+
+  stop:
+    description: 'Docker compose down'
+    command: 'docker-compose down'
+    local: true

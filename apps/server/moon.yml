@@ -1,0 +1,53 @@
+$schema: 'https://moonrepo.dev/schemas/project.json'
+
+stack: 'backend'
+type: 'application'
+language: 'typescript'
+
+fileGroups:
+  app:
+    - 'nest-cli.*'
+
+dependsOn:
+  - id: 'eslint-config'
+    scope: 'development'
+  - id: 'vitest'
+    scope: 'development'
+
+tasks:
+  start:
+    command: './scripts/start-server.sh'
+    local: true
+
+  build:
+    command: 'nest build'
+    inputs:
+      - '@group(app)'
+      - '@group(sources)'
+
+  expose:
+    command: 'ngrok http http://localhost:3000'
+    local: true
+
+  test-integration:
+    command: 'vitest --config vitest-integration.config.mts'
+    inputs:
+      - '@globs(sources)'
+      - '@globs(integration-tests)'
+      - 'vitest-integration.config.*'
+    env: 
+      # DEBUG: 'testcontainers,testcontainers:exec'
+    outputs:
+      - 'reports/integration'
+
+  test-performance:
+    command: 'k6 run performance-tests/test.js'
+    local: true
+    inputs:
+      - '@globs(performance-tests)'
+
+  test:
+    local: true
+    deps:
+      - 'test-unit'
+      - 'test-integration'

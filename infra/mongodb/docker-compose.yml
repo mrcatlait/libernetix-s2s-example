@@ -1,0 +1,12 @@
+services:
+  rabbitmq:
+    image: mongo:latest
+    container_name: 'mongodb'
+    ports:
+      - 27017:27017 # default
+    networks:
+      - mongodb_net
+
+networks:
+  mongodb_net:
+    driver: bridge

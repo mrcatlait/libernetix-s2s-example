@@ -1,0 +1,116 @@
+<form
+  [formGroup]="form"
+  [selector]="selectors.formContainer"
+>
+  <section>
+    <div class="field">
+      <tui-input-number
+        [selector]="selectors.amountInput"
+        [tuiTextfieldPrefix]="'978' | tuiCurrency"
+        formControlName="amount"
+      >
+        Type a sum
+      </tui-input-number>
+
+      <tui-error
+        [error]="[] | tuiFieldError | async"
+        [selector]="selectors.amountInputErrorLabel"
+        formControlName="amount"
+      />
+    </div>
+
+    <div class="field">
+      <tui-textfield>
+        <label tuiLabel>Currency</label>
+        <input
+          formControlName="currency"
+          tuiTextfield
+        />
+      </tui-textfield>
+    </div>
+  </section>
+
+  <div class="field">
+    <tui-textfield>
+      <label tuiLabel>Card holder name</label>
+      <input
+        [selector]="selectors.cardHolderNameInput"
+        formControlName="name"
+        tuiTextfield
+      />
+    </tui-textfield>
+
+    <tui-error
+      [error]="[] | tuiFieldError | async"
+      [selector]="selectors.cardHolderNameInputErrorLabel"
+      formControlName="name"
+    />
+  </div>
+
+  <div class="field">
+    <tui-textfield>
+      <label tuiLabel>Card number</label>
+      <input
+        [selector]="selectors.cardNumberInput"
+        formControlName="card"
+        tuiInputCard
+        tuiTextfield
+      />
+    </tui-textfield>
+
+    <tui-error
+      [error]="[] | tuiFieldError | async"
+      [selector]="selectors.cardNumberInputErrorLabel"
+      formControlName="card"
+    />
+  </div>
+
+  <section>
+    <div class="field">
+      <tui-textfield>
+        <label tuiLabel>Expires</label>
+        <input
+          [selector]="selectors.expiryDateInput"
+          formControlName="expire"
+          tuiInputExpire
+          tuiTextfield
+        />
+      </tui-textfield>
+
+      <tui-error
+        [error]="[] | tuiFieldError | async"
+        [selector]="selectors.expiryDateInputErrorLabel"
+        formControlName="expire"
+      />
+    </div>
+
+    <div class="field">
+      <tui-textfield>
+        <label tuiLabel>CVC/CVV</label>
+        <input
+          [selector]="selectors.cvvInput"
+          formControlName="cvc"
+          tuiInputCVC
+          tuiTextfield
+        />
+      </tui-textfield>
+
+      <tui-error
+        [error]="[] | tuiFieldError | async"
+        [selector]="selectors.cvvInputErrorLabel"
+        formControlName="cvc"
+      />
+    </div>
+  </section>
+</form>
+
+<button
+  [disabled]="loading()"
+  [selector]="selectors.submitButton"
+  size="m"
+  tuiButton
+  type="button"
+  (click)="handleSubmit()"
+>
+  Pay
+</button>
